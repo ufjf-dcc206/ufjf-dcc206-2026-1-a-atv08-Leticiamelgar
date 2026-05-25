@@ -8,17 +8,43 @@ class StarRating extends HTMLElement {
         this.stars = 3;
     }
 
+   
     get stars() {
         return this.#stars;
     }
 
     set stars(novoValor) {
-        if(1<= novoValor && novoValor <= 5) {
+        if (1 <= novoValor && novoValor <= 5) {
             this.#stars = novoValor;
+            this.#desenha();
         }
-        this.textContent = "";
-        for (let i = 0; i < this.stars; i++) {
-            this.textContent += "⭐";
+    }
+
+    #desenha() {
+        this.innerHTML = `
+        <style>
+            .container {
+                display: grid;
+                grid-template-columns: repeat(5, 1.2em);
+                cursor: pointer;
+            }
+            .star.inativa {
+                filter: grayscale(100%);
+            }
+        </style>
+        `;
+
+    const div = document.createElement('div');
+    div.classList.add('container');
+    this.append(div);
+    for (let i = 0; i < 5; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            if(i + 1 > this.stars) {
+                star.classList.add('inativa');
+            }
+            star.textContent = "⭐";
+            div.append(star);
         }
     }
 
