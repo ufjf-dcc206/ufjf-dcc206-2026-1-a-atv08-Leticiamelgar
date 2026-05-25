@@ -21,6 +21,19 @@ class StarRating extends HTMLElement {
             this.textContent += "⭐";
         }
     }
+
+    static get observedAttributes() {
+        return ['stars'];
+    }
+
+    attributeChangedCallback(chave, antigo, novo) {
+        console.log(chave, antigo, novo);
+        if(chave === "stars") {
+            if(antigo !== novo) {
+                this.stars = parseInt(novo);
+            }
+        }
+    }
 }
 
 customElements.define('star-rating', StarRating);
